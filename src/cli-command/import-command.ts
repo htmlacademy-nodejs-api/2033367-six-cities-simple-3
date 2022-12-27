@@ -1,0 +1,19 @@
+import TSVFileReader from '../common/tsv-file-reader.js';
+import { CliCommandInterface } from './cli-command.interface.js';
+import chalk from 'chalk';
+
+export default class ImportCommand implements CliCommandInterface {
+  public readonly name = '--import';
+  public execute(filename: string): void {
+    const fileReader = new TSVFileReader(filename.trim());
+
+    try {
+      fileReader.read();
+      console.log(chalk.greenBright(fileReader.toArray()));
+    } catch (err) {
+      if (!(err instanceof Error)) {
+        throw err;
+      }
+    }
+  }
+}
